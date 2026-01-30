@@ -41,6 +41,9 @@ importers:
       '@leafer-in/view':
         specifier: ^2.0.0
         version: 2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0)
+      '@leafer-ui/core':
+        specifier: ^2.0.0
+        version: 2.0.0
       leafer-draw:
         specifier: ^2.0.0
         version: 2.0.0(@leafer/interface@2.0.0)

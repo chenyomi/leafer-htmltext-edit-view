@@ -1,6 +1,15 @@
 {
   "compilerOptions": {
-    "useDefineForClassFields": false,
-    "experimentalDecorators": true,  
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",   // ⭐ 关键：给 Vite / Rollup 用
+    "strict": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,          // ⭐ 解决 plugin-vue 默认导入报错
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ESNext", "DOM"]
   }
 }
