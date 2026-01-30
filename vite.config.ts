@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
+  base: 'leafer-htmltext-edit-view',
   plugins: [vue()],
   resolve: {
     dedupe: [
