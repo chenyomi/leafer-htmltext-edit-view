@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@chenyomi/leafer-htmltext-edit':
-        specifier: ^2.1.5
-        version: 2.1.5(@leafer-in/editor@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-in/resize@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-in/html@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(leafer-ui@2.0.0)(quill@2.0.3)
+        specifier: ^2.1.6
+        version: 2.1.6(@leafer-in/editor@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-in/resize@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-in/html@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(leafer-ui@2.0.0)(quill@2.0.3)
       '@leafer-in/animate':
         specifier: ^2.0.0
         version: 2.0.0(@leafer-in/color@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0)
@@ -92,8 +92,8 @@ packages:
     resolution: {integrity: sha512-0ZrskXVEHSWIqZM/sQZ4EV3jZJXRkio/WCxaqKZP1g//CEWEPSfeZFcms4XeKBCHU0ZKnIkdJeU/kF+eRp5lBg==}
     engines: {node: '>=6.9.0'}
 
-  '@chenyomi/leafer-htmltext-edit@2.1.5':
-    resolution: {integrity: sha512-tzqwxumaTKZSpCie6bNA/jHo2oDigVtvszhWK9zXcEuxBPGtHduCftJQm06feL39lVBhNahoTg1g8XkVjFICVw==}
+  '@chenyomi/leafer-htmltext-edit@2.1.6':
+    resolution: {integrity: sha512-XxCGTNw6XfQSQ1sQOcsnTJFH22USIETaK+YFyOSwciUjFwt6bmLJXWBj3M6HEVBwLASttaG1Ea4TlRa1z9qCfg==}
     peerDependencies:
       '@leafer-in/editor': ^2.0.0
       '@leafer-in/html': ^2.0.0
@@ -875,7 +875,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@chenyomi/leafer-htmltext-edit@2.1.5(@leafer-in/editor@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-in/resize@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-in/html@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(leafer-ui@2.0.0)(quill@2.0.3)':
+  '@chenyomi/leafer-htmltext-edit@2.1.6(@leafer-in/editor@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-in/resize@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-in/html@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(leafer-ui@2.0.0)(quill@2.0.3)':
     dependencies:
       '@leafer-in/editor': 2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-in/resize@2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0))(@leafer-ui/core@2.0.0)(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0)
       '@leafer-in/html': 2.0.0(@leafer-in/interface@2.0.0(@leafer-ui/interface@2.0.0)(@leafer/interface@2.0.0))(@leafer-ui/draw@2.0.0)(@leafer-ui/interface@2.0.0)
