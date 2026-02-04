@@ -9,16 +9,16 @@ import {
   setHTMLText,
   HtmlText,
 } from "@chenyomi/leafer-htmltext-edit";
-// 1. 设置 License（必须在 init 之前）
-const licenseKey =
-  "VTJGc2RHVmtYMThDTmVTRDA1R0ZHQ3poc25EZS91S2lVbGtSOEp5c2pMb3ovcUV1SHJ4NmNmWERRc3JLc01sK2ttYTdqU2VMM0tjbnhwaU1EVzRoTFR4ZGNSVnlCN0VFRVVmT2p2SDJqSzI5MUpnN3pqOWxYUWJ0ZC9TaFBubjZBV2c0cFlOWENhQldaTVdXWVNtSnZINVZncFRCZCsrdCtFSkEzTlBsVFRpZ2VaVVkxZ05jNm1Md2hVWWtjeGxMOW0vMC8xZkQ0aFJtQjArZGpCYXFUN0N3dDA4UkpkWFBiejk2L21yY0tZND0=";
-const success = setLicense(licenseKey);
 
-if (!success) {
-  console.error("License validation failed");
-  // 可以显示错误提示给用户
-}
-onMounted(() => {
+onMounted(async () => {
+  // 1. 设置 License（必须在 init 之前）
+  const licenseKey =
+    "eyJkYXRhIjoie1wia2V5XCI6XCJFOTFPLVRYNDUtSkhMMi1ETDZJXCIsXCJkb21haW5zXCI6W1wibG9jYWwuc2NpcGl4YS5jblwiLFwibG9jYWxob3N0XCJdLFwiZXhwaXJlRGF0ZVwiOlwiMjAyNy0wMi0wNFwiLFwiaXNzdWVEYXRlXCI6XCIyMDI2LTAyLTA0XCIsXCJlbWFpbFwiOlwiNDA4NTUwMTc5QHFxLmNvbVwiLFwidXNlcklkXCI6XCIxXCIsXCJmZWF0dXJlc1wiOltcImVkaXRvclwiLFwiZXhwb3J0XCIsXCJwcmVtaXVtXCJdLFwidmVyc2lvblwiOlwiMi4wXCJ9Iiwic2lnbmF0dXJlIjoiSTNrTC92b1RTU0YwNWkwZTZ5cE9zbG5udy90Y0RGRG5yTitGVkI3SmN2bnYwOUc3QUswZ0U2M1JYaS94cGFKSEsyUXN3aStnZlhhQXFkUHoyc0pIUnZvNGR3RlBQdVhjTWRpSnkvcng0aDZJQWNrclFma3hlYU5ORzByWmhESlorNFJKckgyM0M5Wllxclh0U2ZXMHlqTm5uSkFoTVhxd0ZncFhoWm1uM0pTZFlhRVF6YW1jQ3BiQXJFdjhZNStxZldOejMxMHNLNUpFQ0wzZVU2QWtCVEpxNHFFVFQwcFgrcnVqdXNaUmJ4SFNJR2N3U3NkaUxFVG5RZHhJQWtBbTFPbDBFR0p6Z01CdUFwS3c1Mnluc2hnN1EvcEkweEZIM21qK3MydUFMUHJUZlF5M3dFNWRHK2NBUG5sRlRIUzl4bFBOY2xid2psVWk4MGN5ck83UERBPT0ifQ==";
+  const success = await setLicense(licenseKey);
+  if (!success) {
+    console.error("License validation failed");
+    // 可以显示错误提示给用户
+  }
   const leafer = new App({
     view: "leafer-view",
     fill: "#ffffff",
