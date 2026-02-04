@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chenyomi/leafer-htmltext-edit": "^2.1.7",
+    "@chenyomi/leafer-htmltext-edit": "^2.2.0",
     "@leafer-in/animate": "^2.0.0",
     "@leafer-in/arrow": "^2.0.0",
     "@leafer-in/color": "^2.0.0",

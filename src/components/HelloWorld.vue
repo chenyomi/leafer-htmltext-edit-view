@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { App } from "leafer-ui";
+import { App, Frame, Leafer } from "leafer-ui";
 import "leafer-editor";
-// import "@leafer-in/state";
 import {
   htmlTextManage,
   setLicense,
@@ -10,6 +9,7 @@ import {
   HtmlText,
 } from "@chenyomi/leafer-htmltext-edit";
 
+let leafer: any, frame: Frame;
 onMounted(async () => {
   // 1. 设置 License（必须在 init 之前）
   const licenseKey =
@@ -17,20 +17,27 @@ onMounted(async () => {
   const success = await setLicense(licenseKey);
   if (!success) {
     console.error("License validation failed");
-    // 可以显示错误提示给用户
   }
-  const leafer = new App({
+  leafer = new App({
     view: "leafer-view",
-    fill: "#ffffff",
+    fill: "#32cd79",
     editor: {},
   });
+  // 2. 初始化
   htmlTextManage.init(leafer);
-  let { width = 1200, height = 960 } = leafer;
+  frame = new Frame({
+    width: window.innerWidth * 0.7,
+    height: window.innerHeight * 0.7,
+    x: window.innerWidth * 0.15,
+    y: window.innerHeight * 0.15,
+    fill: "#fff",
+  });
+  leafer.tree.add(frame);
   const text_ = new HtmlText({
     editOuter: "TextEditTool",
     name: "Text",
-    x: width / 2 - 100,
-    y: height * 0.4,
+    x: window.innerWidth * 0.27,
+    y: window.innerHeight * 0.32,
     editable: true,
     draggable: true,
     fontFamily: undefined,
@@ -40,7 +47,7 @@ onMounted(async () => {
     textShadow: undefined,
     alignContent: "start",
   });
-  leafer.tree.add([text_]);
+  frame.add(text_);
   // leafer.editor.openInnerEditor(text, true)
 });
 const fontFamily = '"Dancing Script", cursive';
@@ -52,11 +59,19 @@ const changeFontFamily = () => {
 const reload = () => {
   window.location.reload();
 };
+const print = () => {
+  const canvas = htmlTextManage.getCanvas();
+  canvas.editor.list.forEach((item: any) => {
+    const copy = item.clone()
+    copy.x += 10;
+    copy.y += 10;
+    frame.add(copy);
+  });
+};
 </script>
 
 <template>
   <div id="leafer-view"></div>
-  <div class="selection-change">当前选择：index{{}}</div>
   <div class="btn">
     <button @click="setHTMLText('bold')">加粗</button>
     <button @click="setHTMLText('italic')">斜体</button>
@@ -71,6 +86,8 @@ const reload = () => {
     <button @click="setHTMLText('alignContent', 'start')">顶部对齐</button>
     <button @click="setHTMLText('alignContent', 'center')">垂直居中</button>
     <button @click="setHTMLText('alignContent', 'end')">底部对齐</button>
+  </div>
+  <div class="btn2">
     <button @click="setHTMLText('list', 'ordered')">有序列表</button>
     <button @click="setHTMLText('list', 'bullet')">无序列表</button>
     <button @click="setHTMLText('color', '#3CB72C')">#3CB72C</button>
@@ -88,6 +105,7 @@ const reload = () => {
     <button @click="changeFontFamily">字体</button>
     <button @click="setHTMLText('fontSize', 100)">大字号</button>
     <button @click="reload">重置</button>
+    <button @click="print">复制</button>
   </div>
 </template>
 
@@ -99,19 +117,23 @@ const reload = () => {
   width: 100%;
   height: 100%;
 }
-.btn {
+.btn,
+.btn2 {
   position: fixed;
-  left: 0;
-  top: 0;
-  padding: 30px;
-  width: 220px;
+  left: 10px;
+  top: 10px;
+  width: 90px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px; /* 可选：间距 */
-  height: 80vh;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 8px; /* 可选：间距 */
+  height: auto;
 }
-.btn button {
+.btn button,
+.btn2 button {
   display: block;
-  margin-bottom: 10px;
+}
+.btn2 {
+  right: 10px;
+  left: auto;
 }
 </style>
