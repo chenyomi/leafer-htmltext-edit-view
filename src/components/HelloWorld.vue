@@ -13,7 +13,7 @@ let leafer: any, frame: Frame;
 onMounted(async () => {
   // 1. 设置 License（必须在 init 之前）
   const licenseKey =
-    "eyJkYXRhIjoiSE9mWDJpR2x1U3FyK0NLQzhkTy91NWpUdXNQSFZjbmk5TE00Rlp4QmcwM1FwbXQ4WG9laFQzby80TzF5VHQ3L0Z6WUREQ3RYZGRHOSttNHBhSEpFQSt2ancrdmdkUS8vQk52eDZUWWhVRDNsakw1OTB6RU5iWjZ5Y0tKTnk5SUs2Z1NaYWVrQzRuTWFESkJ1S3pwMTRjMnA5MEIvMFpwcGd5Sk9NQnp0Ulpab1c3NEYxcXZpbjJ4QzJDb2dwOEk1VWZmUEFhUUdSWVFhYmRvQ0xHMDZNNTJFYVFmd2h1N3U5VGlXNmhZMkx4ODlTNjRhSWpaWHIyVGIvVmdCRjVJSjhpdUluTU1NWFZZeDV0bGtSMHpqZWE4K08vMFVaNE01T3hwd2hqaHc2dkl1YnBjN0dyWHFDTkxCN2wvVzhuMUdYS09XbzgyT2RwUmlnbHRUbEpaczRnPT0iLCJzaWduYXR1cmUiOiJZRlJCb1B5ZzM5aHQxbXBzVUVWVW5MYUx4VXhwejdXTkRTalZmcVg5bSttL0dMYWpxeFNwSGF0aVRHdHQxWTJtS21SR0YvN0Z5bDBiU1FIMXZVQ3ZlL3BlWldBKzB0VCtJVUNSdEprOWNjWVlZRWZGbk1jemY0Vm0zb2FOZW9qbDB0R3EvYmJMNVJWU1lQTUEyaDJKc0V5TkdOdWlpd2FOQnptZlEwTVZid1k5cUU2Vk1qS3QyUk96VCtQS0VUZ3gwZ2x5U1JwWG84b1dDdXhlK2dxYzRtYzJUc1lmVXN6cGlHWmZQRnpNWjRxSGxNa0wxbnN1dkt4NC9RYVczWEVrUWgrNU9QS0N5MFJhQmo0VTd0UXJnano0c0R6OS9MSmMzdzg0cjllcWxnRm5KN1dmeStKZlJhQThBVUh6SVFJbGNNVzFuSlJpTXZwZU1UenZRSldzbWc9PSIsImVuY3J5cHRlZCI6dHJ1ZX0=";
+    "eyJkYXRhIjoibEhyNU4xZitVNEtSaHJJbW9hNENhTmhPSE1RcGorQXdsckQvSmpHUC9pMXRZYThjbm8wS0JzRjJmSWw3RWd3YmxydThNdHRqbEpySkE1Y3JhMHNvY2JUanc5eW1pWHUvQTVOQWMrcFVRaFFkYWlUTFFoZTJnQmJidHhDSTEwNmMzK0VtM0NRU1BsR3JWZ3cxYmpKcW1abDF1N0hkOEpvcXF4V3lWUFJZSjYrbVJUOVZyREw5VFlqaC9INE9oVFdDRHVlNGdRVjlydlBjTTRiK0Q3clZ2NGxYK1BySW1YN1BnRlpRdkI0OUM2ZmtEM2ZrUGxFVzhBcHRYVEFiOVJrSVhXd3F5M2JDS3pPSGM5NTVLeFU0NXY0MkdHRUtKQm05czM2OHdxcmZoV0FVbWxrZnY1SG9SZHUwUERrVU1jSUhrSE9YcFpQc3g1RnhSZDhwdk1hSXlGRCtLMGRyaVdRM1ZzdUJoanZvV2YwPSIsInNpZ25hdHVyZSI6IkF6NEs0V0EvVSswRUE0dUljVXkzMTBVckxsZFVXd0NnWFVVRFFJeVdwM0wxTFE4bnFsb1Q3NWJ4VzZuUS9ROHF5aHpLa1dvbU5CM1JPdjVJbWJaQTkyeDRORjhXTjFKUmNnVGc0UHZsRzIra1lnbHdOS08xNjVNSzFnOEJHMWFsYmZPQUw0SVhYN0NtRTBTVDAvYWs1UWdIWTUwdlZqb29ReTJMeDA4V0RTOGFGNjN3Ny9lWkN5cTdrNzRsOUZZa1dCZnNJaFVHNVJkaVphSU9yNGFTMUpMRFNmUGlRSnJaNmxuZFQrOHdWaHpoWFBYaDhacHF1S243Q0tFWW5ISUtJTnVmNWk3VjFHbnFMd2R0ZkRRYmJ5SGhmMDhxTHRCQjNJY2ZCelVWVUFnclR5U3JXWXFDNCs3VEQyRUtBOHQ2TFdncm54TkRFQkRMUjRFQ2lMUVVrUT09IiwiZW5jcnlwdGVkIjp0cnVlfQ==";
   const success = await setLicense(licenseKey);
   if (!success) {
     console.error("License validation failed");
@@ -31,6 +31,7 @@ onMounted(async () => {
     x: window.innerWidth * 0.15,
     y: window.innerHeight * 0.15,
     fill: "#fff",
+    overflow: "show",
   });
   leafer.tree.add(frame);
   const text_ = new HtmlText({
@@ -86,6 +87,7 @@ const print = () => {
     <button @click="setHTMLText('alignContent', 'start')">顶部对齐</button>
     <button @click="setHTMLText('alignContent', 'center')">垂直居中</button>
     <button @click="setHTMLText('alignContent', 'end')">底部对齐</button>
+    <button @click="setHTMLText('textVertical', true)">一键竖版 (另收费)</button>
   </div>
   <div class="btn2">
     <button @click="setHTMLText('list', 'ordered')">有序列表</button>
@@ -128,8 +130,19 @@ const print = () => {
   gap: 8px; /* 可选：间距 */
   height: auto;
 }
+.btn3 {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  width: 90px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 8px; /* 可选：间距 */
+  height: auto;
+}
 .btn button,
-.btn2 button {
+.btn2 button,
+.btn3 button {
   display: block;
 }
 .btn2 {
