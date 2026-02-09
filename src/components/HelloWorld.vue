@@ -87,7 +87,7 @@ const print = () => {
     <button @click="setHTMLText('alignContent', 'start')">顶部对齐</button>
     <button @click="setHTMLText('alignContent', 'center')">垂直居中</button>
     <button @click="setHTMLText('alignContent', 'end')">底部对齐</button>
-    <button @click="setHTMLText('textVertical', true)">一键竖版 (另收费)</button>
+    <button @click="setHTMLText('textVertical', true)">一键竖版</button>
   </div>
   <div class="btn2">
     <button @click="setHTMLText('list', 'ordered')">有序列表</button>
