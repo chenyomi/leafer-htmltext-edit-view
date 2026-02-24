@@ -63,7 +63,7 @@ const reload = () => {
 const print = () => {
   const canvas = htmlTextManage.getCanvas();
   canvas.editor.list.forEach((item: any) => {
-    const copy = item.clone()
+    const copy = item.clone();
     copy.x += 10;
     copy.y += 10;
     frame.add(copy);
@@ -103,10 +103,21 @@ const print = () => {
     >
       Shadow
     </button>
+    <button
+      @click="setHTMLText('textShadow', '2px 2px 0px red')"
+    >
+      Shadow2
+    </button>
+
     <button @click="setHTMLText('textShadow', undefined)">无Shadow</button>
+    <button
+      @click="setHTMLText('textStroke', '4px yellow')"
+    >
+      轮廓线
+    </button>
     <button @click="changeFontFamily">字体</button>
     <button @click="setHTMLText('fontSize', 100)">大字号</button>
-    <button @click="reload">重置</button>
+    <button @click="reload" style="background: red">重置</button>
     <button @click="print">复制</button>
   </div>
 </template>
