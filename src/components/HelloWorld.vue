@@ -70,6 +70,95 @@ const print = () => {
     frame.add(copy);
   });
 };
+
+// ---- 锁定比例 ----
+const lockRatioEnabled = ref(false);
+const toggleLockRatio = () => {
+  lockRatioEnabled.value = !lockRatioEnabled.value;
+  const canvas = htmlTextManage.getCanvas();
+  canvas?.editor?.list?.forEach((item: any) => {
+    item.lockRatio = lockRatioEnabled.value;
+  });
+};
+
+// ---- 画布缩放 ----
+const zoomIn = () => { htmlTextManage.getCanvas()?.zoom('in'); };
+const zoomOut = () => { htmlTextManage.getCanvas()?.zoom('out'); };
+const zoomFit = () => { htmlTextManage.getCanvas()?.zoom('fit'); };
+const zoomReset = () => { htmlTextManage.getCanvas()?.zoom(1); };
+
+// ---- 元素旋转 ----
+const rotateElement = (delta: number) => {
+  htmlTextManage.dateEdit((leaf: any) => {
+    leaf.rotation = ((leaf.rotation || 0) + delta + 360) % 360;
+  });
+};
+const resetRotation = () => {
+  htmlTextManage.dateEdit((leaf: any) => { leaf.rotation = 0; });
+};
+
+// ---- 元素缩放 ----
+const scaleElement = (val: number) => {
+  htmlTextManage.dateEdit((leaf: any) => {
+    leaf.scaleX = val;
+    leaf.scaleY = val;
+  });
+};
+
+// ---- 弧形文字 ----
+const setArcText = () => {
+  htmlTextManage.dateEdit((e: any) => {
+    const rawText = htmlTextManage.getQuill()?.getText()?.replace(/\n$/, '')?.trim() || '弧形文字示例';
+    const id = 'arc' + Date.now();
+    e.text = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="130" viewBox="0 0 320 130"><defs><path id="${id}" d="M10,110 A155,155 0 0,1 310,110"/></defs><text font-size="26" font-weight="bold" fill="#333"><textPath href="#${id}">${rawText}</textPath></text></svg>`;
+  }, 1);
+};
+const resetArcText = () => {
+  htmlTextManage.dateEdit((e: any) => {
+    e.text = e.text?.replace(/<svg[\s\S]*?<\/svg>/gi, '') || '';
+  }, 1);
+};
+
+// ---- 底部面板操作 ----
+const addText = () => {
+  const canvas = htmlTextManage.getCanvas();
+  if (!canvas) return;
+  const text = new HtmlText({
+    editOuter: 'TextEditTool',
+    name: 'Text',
+    x: window.innerWidth * 0.35 + Math.random() * 60,
+    y: window.innerHeight * 0.35 + Math.random() * 40,
+    editable: true,
+    draggable: true,
+    fontSize: 24,
+    lineHeight: 1.5,
+    letterSpacing: 0,
+    alignContent: 'start',
+  });
+  frame.add(text);
+};
+
+const deleteSelected = () => {
+  const canvas = htmlTextManage.getCanvas();
+  if (!canvas) return;
+  const list = [...(canvas.editor?.list || [])];
+  if (list.length === 0) return;
+  list.forEach((item: any) => item.remove());
+  canvas.editor.cancel();
+};
+
+const duplicateSelected = () => { print(); };
+
+const selectAll = () => {
+  const canvas = htmlTextManage.getCanvas();
+  if (!canvas) return;
+  const items = frame.children || [];
+  if (items.length) canvas.editor.select(items as any);
+};
+
+const cancelSelect = () => {
+  htmlTextManage.getCanvas()?.editor?.cancel();
+};
 </script>
 
 <template>
@@ -109,13 +198,17 @@ const print = () => {
           <li><strong>上下标</strong> — 上标 X² 和下标 H₂O</li>
           <li><strong>水平对齐</strong> — 左对齐 / 居中 / 右对齐</li>
           <li><strong>垂直对齐</strong> — 顶部 / 垂直居中 / 底部</li>
-          <li><strong>一键竖版</strong> — 将横排文字转为竖向排列</li>
           <li><strong>列表</strong> — 有序列表（1. 2. 3.）和无序列表（• • •）</li>
           <li><strong>文字颜色</strong> — 改变选中文字的颜色</li>
           <li><strong>行高 / 字间距</strong> — 精细控制文字行距和字符间距</li>
           <li><strong>文字阴影</strong> — 为文字添加投影特效</li>
           <li><strong>轮廓描边</strong> — 为文字添加描边效果</li>
           <li><strong>自定义字体</strong> — 传入 Base64 字体数据切换字体</li>
+          <li><strong>画布缩放</strong> — 放大 / 缩小 / 适合屏幕 / 1:1 原始大小</li>
+          <li><strong>锁定比例</strong> — 选中元素后锁定，拖拽缩放时保持宽高比</li>
+          <li><strong>元素缩放</strong> — 对选中元素按比例缩放 50%~200%</li>
+          <li><strong>旋转</strong> — 对选中元素旋转 ±15° / +90° 或归零</li>
+          <li><strong>弧形文字</strong> — 将文字沿弧形路径排列（SVG TextPath）</li>
         </ul>
       </div>
       <div class="guide-section">
@@ -173,9 +266,56 @@ const print = () => {
       <button @click="setHTMLText('alignContent', 'end')">↓ 底部</button>
     </div>
 
-    <div class="toolbar-group">
-      <div class="group-label">排版方向</div>
-      <button @click="setHTMLText('textVertical', true)">↕ 一键竖版</button>
+  </div>
+
+  <!-- 顶部操作面板（文本 + 选择 + 画布缩放） -->
+  <div class="bottom-panel top-action-panel">
+    <div class="bottom-panel-group">
+      <div class="bottom-group-label">文本</div>
+      <button class="bottom-btn primary" @click="addText">＋ 添加文本</button>
+      <button class="bottom-btn danger" @click="deleteSelected">✕ 删除选中</button>
+    </div>
+    <div class="bottom-divider"></div>
+    <div class="bottom-panel-group">
+      <div class="bottom-group-label">选择</div>
+      <button class="bottom-btn" @click="selectAll">⊞ 全选</button>
+      <button class="bottom-btn" @click="cancelSelect">⊟ 取消选中</button>
+    </div>
+    <div class="bottom-divider"></div>
+    <div class="bottom-panel-group">
+      <div class="bottom-group-label">画布缩放</div>
+      <button class="bottom-btn" @click="zoomIn">＋ 放大</button>
+      <button class="bottom-btn" @click="zoomOut">− 缩小</button>
+      <button class="bottom-btn" @click="zoomFit">⊡ 适合</button>
+      <button class="bottom-btn" @click="zoomReset">1:1</button>
+    </div>
+  </div>
+
+  <!-- 底部操作面板（旋转 + 缩放 + 其他） -->
+  <div class="bottom-panel bottom-action-panel">
+    <div class="bottom-panel-group">
+      <div class="bottom-group-label">旋转</div>
+      <button class="bottom-btn" @click="rotateElement(-15)">↺ −15°</button>
+      <button class="bottom-btn" @click="rotateElement(15)">↻ +15°</button>
+      <button class="bottom-btn" @click="rotateElement(90)">↻ +90°</button>
+      <button class="bottom-btn" @click="resetRotation">⊙ 归零</button>
+    </div>
+    <div class="bottom-divider"></div>
+    <div class="bottom-panel-group">
+      <div class="bottom-group-label">缩放</div>
+      <button class="bottom-btn" @click="scaleElement(0.5)">50%</button>
+      <button class="bottom-btn" @click="scaleElement(1)">100%</button>
+      <button class="bottom-btn" @click="scaleElement(1.5)">150%</button>
+      <button class="bottom-btn" @click="scaleElement(2)">200%</button>
+    </div>
+    <div class="bottom-divider"></div>
+    <div class="bottom-panel-group">
+      <div class="bottom-group-label">其他</div>
+      <button class="bottom-btn" @click="duplicateSelected">⧉ 复制选中</button>
+      <button class="bottom-btn" :class="{ 'btn-active': lockRatioEnabled }" @click="toggleLockRatio">
+        {{ lockRatioEnabled ? '🔒 已锁定' : '🔓 锁定比例' }}
+      </button>
+      <button class="bottom-btn danger" @click="reload">↺ 重置页面</button>
     </div>
   </div>
 
@@ -226,9 +366,40 @@ const print = () => {
     </div>
 
     <div class="toolbar-group">
-      <div class="group-label">其他操作</div>
-      <button @click="print">复制选中对象</button>
-      <button class="btn-danger" @click="reload">↺ 重置页面</button>
+      <div class="group-label">画布缩放</div>
+      <button @click="zoomIn">🔍+ 放大</button>
+      <button @click="zoomOut">🔍− 缩小</button>
+      <button @click="zoomFit">⊡ 适合屏幕</button>
+      <button @click="zoomReset">1:1 原始大小</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">锁定比例</div>
+      <button :class="{ 'btn-active': lockRatioEnabled }" @click="toggleLockRatio">
+        {{ lockRatioEnabled ? '🔒 已锁定' : '🔓 锁定比例' }}
+      </button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">元素缩放</div>
+      <button @click="scaleElement(0.5)">缩小 50%</button>
+      <button @click="scaleElement(1)">还原 100%</button>
+      <button @click="scaleElement(1.5)">放大 150%</button>
+      <button @click="scaleElement(2)">放大 200%</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">旋转</div>
+      <button @click="rotateElement(-15)">↺ −15°</button>
+      <button @click="rotateElement(15)">↻ +15°</button>
+      <button @click="rotateElement(90)">↻ +90°</button>
+      <button @click="resetRotation">⊙ 归零</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">弧形文字</div>
+      <button @click="setArcText">∿ 应用弧形</button>
+      <button @click="resetArcText">✕ 还原文字</button>
     </div>
   </div>
 </template>
@@ -481,5 +652,104 @@ const print = () => {
 .btn-danger:hover {
   background: rgba(220, 60, 60, 0.3) !important;
   border-color: rgba(220, 60, 60, 0.7) !important;
+}
+
+.btn-active {
+  background: rgba(91, 214, 130, 0.2) !important;
+  border-color: rgba(91, 214, 130, 0.6) !important;
+  color: #7effa8 !important;
+}
+.btn-active:hover {
+  background: rgba(91, 214, 130, 0.35) !important;
+}
+
+/* ===== 底部操作面板 ===== */
+.bottom-panel {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 15, 20, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 8px 14px;
+  z-index: 20;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  white-space: nowrap;
+  max-width: calc(100vw - 340px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.top-action-panel {
+  top: 50px;
+}
+.bottom-action-panel {
+  bottom: 12px;
+}
+.bottom-panel::-webkit-scrollbar {
+  display: none;
+}
+
+.bottom-panel-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bottom-group-label {
+  color: #555;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  margin-right: 2px;
+  user-select: none;
+}
+
+.bottom-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.bottom-btn {
+  padding: 5px 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 6px;
+  color: #ccc;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+.bottom-btn:hover {
+  background: rgba(91, 91, 214, 0.25);
+  border-color: rgba(91, 91, 214, 0.5);
+  color: #fff;
+}
+.bottom-btn:active {
+  transform: scale(0.95);
+}
+.bottom-btn.primary {
+  background: rgba(47, 115, 184, 0.2);
+  border-color: rgba(47, 115, 184, 0.5);
+  color: #7bc0ff;
+}
+.bottom-btn.primary:hover {
+  background: rgba(47, 115, 184, 0.4);
+}
+.bottom-btn.danger {
+  background: rgba(220, 60, 60, 0.12);
+  border-color: rgba(220, 60, 60, 0.35);
+  color: #ff8080;
+}
+.bottom-btn.danger:hover {
+  background: rgba(220, 60, 60, 0.28);
+  border-color: rgba(220, 60, 60, 0.6);
 }
 </style>
