@@ -4,20 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@chenyomi/leafer-htmltext-edit': link:../@chenyomi-leafer-htmltext-edit
-  pm: link:../../../Library/pnpm/global/5/node_modules/pm
-  typescript: link:../../../Library/pnpm/global/5/node_modules/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript
-  warn: link:../../../Library/pnpm/global/5/node_modules/warn
-  leafer-htmltext-edit: link:../../../Library/pnpm/global/5/node_modules/@chenyomi/leafer-htmltext-edit
-
 importers:
 
   .:
     dependencies:
       '@chenyomi/leafer-htmltext-edit':
-        specifier: link:../@chenyomi-leafer-htmltext-edit
-        version: link:../@chenyomi-leafer-htmltext-edit
+        specifier: ^2.4.5
+        version: 2.4.5(@leafer-in/editor@2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-in/resize@2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0))(@leafer-ui/core@2.1.0)(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0))(@leafer-in/html@2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0))(@leafer-ui/core@2.1.0)(quill@2.0.3)
       '@leafer-in/animate':
         specifier: ^2.1.0
         version: 2.1.0(@leafer-in/color@2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0))(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0)
@@ -57,37 +50,28 @@ importers:
       leafer-editor:
         specifier: ^2.1.0
         version: 2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0)
-      leafer-htmltext-edit:
-        specifier: link:../../../Library/pnpm/global/5/node_modules/@chenyomi/leafer-htmltext-edit
-        version: link:../../../Library/pnpm/global/5/node_modules/@chenyomi/leafer-htmltext-edit
       leafer-ui:
         specifier: ^2.1.0
         version: 2.1.0
-      pm:
-        specifier: link:../../../Library/pnpm/global/5/node_modules/pm
-        version: link:../../../Library/pnpm/global/5/node_modules/pm
       vue:
         specifier: ^3.5.33
-        version: 3.5.33(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript)
-      warn:
-        specifier: link:../../../Library/pnpm/global/5/node_modules/warn
-        version: link:../../../Library/pnpm/global/5/node_modules/warn
+        version: 3.5.33(typescript@5.9.3)
     devDependencies:
       '@types/node':
         specifier: ^20.19.39
         version: 20.19.39
       '@vitejs/plugin-vue':
         specifier: ^5.2.4
-        version: 5.2.4(vite@5.4.21(@types/node@20.19.39))(vue@3.5.33(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript))
+        version: 5.2.4(vite@5.4.21(@types/node@20.19.39))(vue@3.5.33(typescript@5.9.3))
       typescript:
-        specifier: link:../../../Library/pnpm/global/5/node_modules/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript
-        version: link:../../../Library/pnpm/global/5/node_modules/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript
+        specifier: ^5.9.3
+        version: 5.9.3
       vite:
         specifier: ^5.4.21
         version: 5.4.21(@types/node@20.19.39)
       vue-tsc:
         specifier: ^2.2.12
-        version: 2.2.12(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript)
+        version: 2.2.12(typescript@5.9.3)
 
 packages:
 
@@ -107,6 +91,14 @@ packages:
   '@babel/types@7.29.0':
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
+
+  '@chenyomi/leafer-htmltext-edit@2.4.5':
+    resolution: {integrity: sha512-SQB32P94diNMR53z8fXENREoL6yKgMGqU6CFEoqrD/b6Rd33mVgNU7Hu/0A4zHIhg1HKhhvdVV6bYGqJudgPwQ==}
+    peerDependencies:
+      '@leafer-in/editor': ^2.0.0
+      '@leafer-in/html': ^2.0.0
+      '@leafer-ui/core': ^2.0.0
+      quill: ^2.0.0
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -721,6 +713,9 @@ packages:
   brace-expansion@2.1.0:
     resolution: {integrity: sha512-TN1kCZAgdgweJhWWpgKYrQaMNHcDULHkWwQIspdtjV4Y5aurRdZpjAqn6yX3FPqTA9ngHCc4hJxMAMgGfve85w==}
 
+  crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
@@ -738,6 +733,12 @@ packages:
 
   estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
+
+  eventemitter3@5.0.4:
+    resolution: {integrity: sha512-mlsTRyGaPBjPedk6Bvw+aqbsXDtoAyAzm5MO7JgU+yVRyMQ5O8bD4Kcci7BS85f93veegeCPkL8R4GLClnjLFw==}
+
+  fast-diff@1.3.0:
+    resolution: {integrity: sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -757,6 +758,16 @@ packages:
   leafer-ui@2.1.0:
     resolution: {integrity: sha512-MoLnhPAO5HRFzBFT0mdIAE4+0TDi5ikLWVrzLrPaRhBFU6dAH8diot0rIsDCsNaqOt27eYoBuL/p1Y+UppDwQQ==}
 
+  lodash-es@4.18.1:
+    resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
+
+  lodash.clonedeep@4.5.0:
+    resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
+
+  lodash.isequal@4.5.0:
+    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
+    deprecated: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -772,6 +783,9 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  parchment@3.0.0:
+    resolution: {integrity: sha512-HUrJFQ/StvgmXRcQ1ftY6VEZUq3jA2t9ncFN4F84J/vN0/FPpQF+8FKXb3l6fLces6q0uOHj6NJn+2xvZnxO6A==}
+
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
 
@@ -782,6 +796,14 @@ packages:
     resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
     engines: {node: ^10 || ^12 || >=14}
 
+  quill-delta@5.1.0:
+    resolution: {integrity: sha512-X74oCeRI4/p0ucjb5Ma8adTXd9Scumz367kkMK5V/IatcX6A0vlgLgKbzXWy5nZmCGeNJm2oQX0d2Eqj+ZIlCA==}
+    engines: {node: '>= 12.0.0'}
+
+  quill@2.0.3:
+    resolution: {integrity: sha512-xEYQBqfYx/sfb33VJiKnSJp8ehloavImQ2A6564GAbqG55PGw1dAWUn1MUbQB62t0azawUS2CZZhWCjO8gRvTw==}
+    engines: {npm: '>=8.2.3'}
+
   rollup@4.60.2:
     resolution: {integrity: sha512-J9qZyW++QK/09NyN/zeO0dG/1GdGfyp9lV8ajHnRVLfo/uFsbji5mHnDgn/qYdUHyCkM2N+8VyspgZclfAh0eQ==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -790,6 +812,11 @@ packages:
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
+
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
@@ -856,6 +883,14 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
+
+  '@chenyomi/leafer-htmltext-edit@2.4.5(@leafer-in/editor@2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-in/resize@2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0))(@leafer-ui/core@2.1.0)(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0))(@leafer-in/html@2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0))(@leafer-ui/core@2.1.0)(quill@2.0.3)':
+    dependencies:
+      '@leafer-in/editor': 2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-in/resize@2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0))(@leafer-ui/core@2.1.0)(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0)
+      '@leafer-in/html': 2.1.0(@leafer-in/interface@2.1.0(@leafer-ui/interface@2.1.0)(@leafer/interface@2.1.0))(@leafer-ui/draw@2.1.0)(@leafer-ui/interface@2.1.0)
+      '@leafer-ui/core': 2.1.0
+      crypto-js: 4.2.0
+      quill: 2.0.3
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
@@ -1447,10 +1482,10 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@vitejs/plugin-vue@5.2.4(vite@5.4.21(@types/node@20.19.39))(vue@3.5.33(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript))':
+  '@vitejs/plugin-vue@5.2.4(vite@5.4.21(@types/node@20.19.39))(vue@3.5.33(typescript@5.9.3))':
     dependencies:
       vite: 5.4.21(@types/node@20.19.39)
-      vue: 3.5.33(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript)
+      vue: 3.5.33(typescript@5.9.3)
 
   '@volar/language-core@2.4.15':
     dependencies:
@@ -1499,7 +1534,7 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  '@vue/language-core@2.2.12(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript)':
+  '@vue/language-core@2.2.12(typescript@5.9.3)':
     dependencies:
       '@volar/language-core': 2.4.15
       '@vue/compiler-dom': 3.5.33
@@ -1510,7 +1545,7 @@ snapshots:
       muggle-string: 0.4.1
       path-browserify: 1.0.1
     optionalDependencies:
-      typescript: link:../../../Library/pnpm/global/5/node_modules/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript
+      typescript: 5.9.3
 
   '@vue/reactivity@3.5.33':
     dependencies:
@@ -1528,11 +1563,11 @@ snapshots:
       '@vue/shared': 3.5.33
       csstype: 3.2.3
 
-  '@vue/server-renderer@3.5.33(vue@3.5.33(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript))':
+  '@vue/server-renderer@3.5.33(vue@3.5.33(typescript@5.9.3))':
     dependencies:
       '@vue/compiler-ssr': 3.5.33
       '@vue/shared': 3.5.33
-      vue: 3.5.33(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript)
+      vue: 3.5.33(typescript@5.9.3)
 
   '@vue/shared@3.5.33': {}
 
@@ -1543,6 +1578,8 @@ snapshots:
   brace-expansion@2.1.0:
     dependencies:
       balanced-match: 1.0.2
+
+  crypto-js@4.2.0: {}
 
   csstype@3.2.3: {}
 
@@ -1577,6 +1614,10 @@ snapshots:
       '@esbuild/win32-x64': 0.21.5
 
   estree-walker@2.0.2: {}
+
+  eventemitter3@5.0.4: {}
+
+  fast-diff@1.3.0: {}
 
   fsevents@2.3.3:
     optional: true
@@ -1626,6 +1667,12 @@ snapshots:
       '@leafer/interface': 2.1.0
       '@leafer/partner': 2.1.0
 
+  lodash-es@4.18.1: {}
+
+  lodash.clonedeep@4.5.0: {}
+
+  lodash.isequal@4.5.0: {}
+
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -1638,6 +1685,8 @@ snapshots:
 
   nanoid@3.3.11: {}
 
+  parchment@3.0.0: {}
+
   path-browserify@1.0.1: {}
 
   picocolors@1.1.1: {}
@@ -1647,6 +1696,19 @@ snapshots:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  quill-delta@5.1.0:
+    dependencies:
+      fast-diff: 1.3.0
+      lodash.clonedeep: 4.5.0
+      lodash.isequal: 4.5.0
+
+  quill@2.0.3:
+    dependencies:
+      eventemitter3: 5.0.4
+      lodash-es: 4.18.1
+      parchment: 3.0.0
+      quill-delta: 5.1.0
 
   rollup@4.60.2:
     dependencies:
@@ -1681,6 +1743,8 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
+  typescript@5.9.3: {}
+
   undici-types@6.21.0: {}
 
   vite@5.4.21(@types/node@20.19.39):
@@ -1694,18 +1758,18 @@ snapshots:
 
   vscode-uri@3.1.0: {}
 
-  vue-tsc@2.2.12(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript):
+  vue-tsc@2.2.12(typescript@5.9.3):
     dependencies:
       '@volar/typescript': 2.4.15
-      '@vue/language-core': 2.2.12(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript)
-      typescript: link:../../../Library/pnpm/global/5/node_modules/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript
+      '@vue/language-core': 2.2.12(typescript@5.9.3)
+      typescript: 5.9.3
 
-  vue@3.5.33(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript):
+  vue@3.5.33(typescript@5.9.3):
     dependencies:
       '@vue/compiler-dom': 3.5.33
       '@vue/compiler-sfc': 3.5.33
       '@vue/runtime-dom': 3.5.33
-      '@vue/server-renderer': 3.5.33(vue@3.5.33(typescript@..+..+Library+pnpm+global+5+node_modules+node_modules+.pnpm+typescript@5.9.3+node_modules+typescript))
+      '@vue/server-renderer': 3.5.33(vue@3.5.33(typescript@5.9.3))
       '@vue/shared': 3.5.33
     optionalDependencies:
-      typescript: link:../../../Library/pnpm/global/5/node_modules/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript
+      typescript: 5.9.3
