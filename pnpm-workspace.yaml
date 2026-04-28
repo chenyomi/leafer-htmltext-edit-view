@@ -1,0 +1,6 @@
+overrides:
+  '@chenyomi/leafer-htmltext-edit': link:../@chenyomi-leafer-htmltext-edit
+  leafer-htmltext-edit: link:../../../Library/pnpm/global/5/node_modules/@chenyomi/leafer-htmltext-edit
+  pm: link:../../../Library/pnpm/global/5/node_modules/pm
+  typescript: link:../../../Library/pnpm/global/5/node_modules/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript
+  warn: link:../../../Library/pnpm/global/5/node_modules/warn

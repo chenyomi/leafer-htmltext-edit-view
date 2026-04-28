@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+const showGuide = ref(false);
 import { App, Frame, Leafer } from "leafer-ui";
 import "leafer-editor";
 import {
@@ -20,7 +21,7 @@ onMounted(async () => {
   }
   leafer = new App({
     view: "leafer-view",
-    fill: "#32cd79",
+    fill: "#1a1a2e",
     editor: {},
   });
   // 2. 初始化
@@ -73,91 +74,412 @@ const print = () => {
 
 <template>
   <div id="leafer-view"></div>
-  <div class="btn">
-    <button @click="setHTMLText('bold')">加粗</button>
-    <button @click="setHTMLText('italic')">斜体</button>
-    <button @click="setHTMLText('underline')">下划线</button>
-    <button @click="setHTMLText('strike')">删除线</button>
-    <button @click="setHTMLText('textCase')">大小写</button>
-    <button @click="setHTMLText('script', 'super')">上标</button>
-    <button @click="setHTMLText('script', 'sub')">下标</button>
-    <button @click="setHTMLText('align', false)">左对齐</button>
-    <button @click="setHTMLText('align', 'center')">居中对齐</button>
-    <button @click="setHTMLText('align', 'right')">右对齐</button>
-    <button @click="setHTMLText('alignContent', 'start')">顶部对齐</button>
-    <button @click="setHTMLText('alignContent', 'center')">垂直居中</button>
-    <button @click="setHTMLText('alignContent', 'end')">底部对齐</button>
-    <button @click="setHTMLText('textVertical', true)">一键竖版</button>
-  </div>
-  <div class="btn2">
-    <button @click="setHTMLText('list', 'ordered')">有序列表</button>
-    <button @click="setHTMLText('list', 'bullet')">无序列表</button>
-    <button @click="setHTMLText('color', '#3CB72C')">#3CB72C</button>
-    <button @click="setHTMLText('color', '#000000')">#000000</button>
-    <button @click="setHTMLText('lineHeight', 1.5)">行高1.5</button>
-    <button @click="setHTMLText('lineHeight', 3)">行高3.0</button>
-    <button @click="setHTMLText('letterSpacing', 0)">字间距0</button>
-    <button @click="setHTMLText('letterSpacing', 3)">字间距3</button>
-    <button
-      @click="setHTMLText('textShadow', '3px 3px 3px rgba(0, 0, 0, 0.5)')"
-    >
-      Shadow
-    </button>
-    <button
-      @click="setHTMLText('textShadow', '2px 2px 0px red')"
-    >
-      Shadow2
-    </button>
 
-    <button @click="setHTMLText('textShadow', undefined)">无Shadow</button>
-    <button
-      @click="setHTMLText('textStroke', '4px yellow')"
-    >
-      轮廓线
-    </button>
-    <button @click="changeFontFamily">字体</button>
-    <button @click="setHTMLText('fontSize', 100)">大字号</button>
-    <button @click="reload" style="background: red">重置</button>
-    <button @click="print">复制</button>
+  <!-- 顶部介绍栏 -->
+  <div class="intro-bar">
+    <div class="intro-left">
+      <span class="plugin-badge">Plugin</span>
+      <span class="plugin-name">@chenyomi/leafer-htmltext-edit</span>
+      <span class="plugin-desc">基于 Leafer UI + Quill 2.0 的富文本编辑器插件</span>
+    </div>
+    <div class="intro-right">
+      <span class="tip-text">💡 双击文本框进入编辑，选中文字后点击按钮应用样式</span>
+      <button class="guide-toggle-btn" @click="showGuide = !showGuide">
+        {{ showGuide ? '收起指南 ▲' : '操作指南 ▼' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- 操作指南面板 -->
+  <div class="guide-panel" v-show="showGuide">
+    <div class="guide-inner">
+      <div class="guide-section">
+        <h4>🚀 快速开始</h4>
+        <ul>
+          <li>双击画布中的<strong>文本框</strong>进入内联编辑模式</li>
+          <li>单击文本框可选中，拖拽移动位置，缩放改变大小</li>
+          <li>编辑模式下选中文字后，点击左/右侧工具栏按钮应用样式</li>
+          <li>未选中文字时点击按钮，对整个文本块应用样式</li>
+        </ul>
+      </div>
+      <div class="guide-section">
+        <h4>✨ 功能一览</h4>
+        <ul>
+          <li><strong>字体样式</strong> — 加粗 / 斜体 / 下划线 / 删除线 / 大小写转换</li>
+          <li><strong>上下标</strong> — 上标 X² 和下标 H₂O</li>
+          <li><strong>水平对齐</strong> — 左对齐 / 居中 / 右对齐</li>
+          <li><strong>垂直对齐</strong> — 顶部 / 垂直居中 / 底部</li>
+          <li><strong>一键竖版</strong> — 将横排文字转为竖向排列</li>
+          <li><strong>列表</strong> — 有序列表（1. 2. 3.）和无序列表（• • •）</li>
+          <li><strong>文字颜色</strong> — 改变选中文字的颜色</li>
+          <li><strong>行高 / 字间距</strong> — 精细控制文字行距和字符间距</li>
+          <li><strong>文字阴影</strong> — 为文字添加投影特效</li>
+          <li><strong>轮廓描边</strong> — 为文字添加描边效果</li>
+          <li><strong>自定义字体</strong> — 传入 Base64 字体数据切换字体</li>
+        </ul>
+      </div>
+      <div class="guide-section">
+        <h4>🔧 核心 API</h4>
+        <ul>
+          <li><code>await setLicense(key)</code> — 激活授权（init 之前调用）</li>
+          <li><code>htmlTextManage.init(app)</code> — 初始化插件，绑定 Leafer App</li>
+          <li><code>setHTMLText(key, value?)</code> — 设置文本属性（选中状态下生效）</li>
+          <li><code>htmlTextManage.getQuill()</code> — 获取 Quill 实例，可监听事件</li>
+          <li><code>htmlTextManage.getCanvas()</code> — 获取 Leafer App 实例</li>
+          <li><code>htmlTextManage.dateEdit(cb)</code> — 批量编辑多选对象</li>
+          <li><code>new HtmlText({...})</code> — 创建富文本节点</li>
+        </ul>
+      </div>
+      <div class="guide-section">
+        <h4>📦 安装</h4>
+        <ul>
+          <li><code>pnpm add @chenyomi/leafer-htmltext-edit</code></li>
+          <li>Peer: leafer-ui · @leafer-ui/core · @leafer-in/editor · @leafer-in/html · quill</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 左侧工具栏 - 文字格式 -->
+  <div class="toolbar left-toolbar">
+    <div class="toolbar-title">文字格式</div>
+
+    <div class="toolbar-group">
+      <div class="group-label">字体样式</div>
+      <button @click="setHTMLText('bold')"><b>B</b> 加粗</button>
+      <button @click="setHTMLText('italic')"><i>I</i> 斜体</button>
+      <button @click="setHTMLText('underline')"><u>U</u> 下划线</button>
+      <button @click="setHTMLText('strike')"><s>S</s> 删除线</button>
+      <button @click="setHTMLText('textCase')">Aa 大小写</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">上下标</div>
+      <button @click="setHTMLText('script', 'super')">X² 上标</button>
+      <button @click="setHTMLText('script', 'sub')">X₂ 下标</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">水平对齐</div>
+      <button @click="setHTMLText('align', false)">≡ 左对齐</button>
+      <button @click="setHTMLText('align', 'center')">≡ 居中</button>
+      <button @click="setHTMLText('align', 'right')">≡ 右对齐</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">垂直对齐</div>
+      <button @click="setHTMLText('alignContent', 'start')">↑ 顶部</button>
+      <button @click="setHTMLText('alignContent', 'center')">⊙ 居中</button>
+      <button @click="setHTMLText('alignContent', 'end')">↓ 底部</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">排版方向</div>
+      <button @click="setHTMLText('textVertical', true)">↕ 一键竖版</button>
+    </div>
+  </div>
+
+  <!-- 右侧工具栏 - 样式效果 -->
+  <div class="toolbar right-toolbar">
+    <div class="toolbar-title">样式效果</div>
+
+    <div class="toolbar-group">
+      <div class="group-label">列表</div>
+      <button @click="setHTMLText('list', 'ordered')">1. 有序列表</button>
+      <button @click="setHTMLText('list', 'bullet')">• 无序列表</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">文字颜色</div>
+      <button class="color-dot green" @click="setHTMLText('color', '#3CB72C')">● 绿色 #3CB72C</button>
+      <button class="color-dot black" @click="setHTMLText('color', '#000000')">● 黑色 #000000</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">行高</div>
+      <button @click="setHTMLText('lineHeight', 1.5)">行高 1.5×</button>
+      <button @click="setHTMLText('lineHeight', 3)">行高 3.0×</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">字间距</div>
+      <button @click="setHTMLText('letterSpacing', 0)">字间距 0</button>
+      <button @click="setHTMLText('letterSpacing', 3)">字间距 3px</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">文字阴影</div>
+      <button @click="setHTMLText('textShadow', '3px 3px 3px rgba(0,0,0,0.5)')">黑色阴影</button>
+      <button @click="setHTMLText('textShadow', '2px 2px 0px red')">红色阴影</button>
+      <button @click="setHTMLText('textShadow', undefined)">移除阴影</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">轮廓描边</div>
+      <button @click="setHTMLText('textStroke', '4px yellow')">黄色描边</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">字体 & 字号</div>
+      <button @click="changeFontFamily">Dancing Script 字体</button>
+      <button @click="setHTMLText('fontSize', 100)">大字号 100px</button>
+    </div>
+
+    <div class="toolbar-group">
+      <div class="group-label">其他操作</div>
+      <button @click="print">复制选中对象</button>
+      <button class="btn-danger" @click="reload">↺ 重置页面</button>
+    </div>
   </div>
 </template>
 
 <style scoped>
 #leafer-view {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
 }
-.btn,
-.btn2 {
+
+/* ===== 顶部介绍栏 ===== */
+.intro-bar {
   position: fixed;
-  left: 10px;
-  top: 10px;
-  width: 90px;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 8px; /* 可选：间距 */
-  height: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: rgba(15, 15, 20, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+  font-size: 12px;
+  color: #ccc;
 }
-.btn3 {
+.intro-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.plugin-badge {
+  background: #5b5bd6;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.plugin-name {
+  color: #e2e2e2;
+  font-weight: 600;
+  font-size: 13px;
+}
+.plugin-desc {
+  color: #888;
+}
+.intro-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tip-text {
+  color: #888;
+}
+.guide-toggle-btn {
+  background: rgba(91, 91, 214, 0.2);
+  border: 1px solid #5b5bd6;
+  color: #9999ff;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.guide-toggle-btn:hover {
+  background: rgba(91, 91, 214, 0.4);
+}
+
+/* ===== 操作指南面板 ===== */
+.guide-panel {
   position: fixed;
-  left: 10px;
-  bottom: 10px;
-  width: 90px;
+  top: 44px;
+  left: 0;
+  right: 0;
+  background: rgba(18, 18, 24, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  z-index: 99;
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+}
+.guide-inner {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 8px; /* 可选：间距 */
-  height: auto;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  padding: 16px 20px;
 }
-.btn button,
-.btn2 button,
-.btn3 button {
-  display: block;
+.guide-section {
+  padding: 8px 16px;
+  border-right: 1px solid rgba(255,255,255,0.07);
 }
-.btn2 {
+.guide-section:last-child {
+  border-right: none;
+}
+.guide-section h4 {
+  color: #a0a0ff;
+  font-size: 13px;
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+.guide-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.guide-section li {
+  color: #b0b0b0;
+  font-size: 12px;
+  line-height: 1.5;
+  padding-left: 10px;
+  position: relative;
+}
+.guide-section li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: #5b5bd6;
+}
+.guide-section strong {
+  color: #e0e0e0;
+}
+.guide-section code {
+  background: rgba(91, 91, 214, 0.15);
+  color: #a0c4ff;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'SF Mono', monospace;
+  font-size: 11px;
+}
+
+/* ===== 工具栏通用 ===== */
+.toolbar {
+  position: fixed;
+  top: 54px;
+  width: 148px;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: rgba(15, 15, 20, 0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 8px 6px 12px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(91,91,214,0.4) transparent;
+}
+.toolbar::-webkit-scrollbar {
+  width: 3px;
+}
+.toolbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.toolbar::-webkit-scrollbar-thumb {
+  background: rgba(91,91,214,0.4);
+  border-radius: 2px;
+}
+
+.left-toolbar {
+  left: 10px;
+}
+.right-toolbar {
   right: 10px;
-  left: auto;
+}
+
+.toolbar-title {
+  color: #9999ff;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 0 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 4px;
+}
+
+/* ===== 工具栏分组 ===== */
+.toolbar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.group-label {
+  color: #666;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 4px 4px 2px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 2px;
+}
+.toolbar-group:first-of-type .group-label {
+  border-top: none;
+}
+
+/* ===== 按钮样式 ===== */
+.toolbar button {
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  color: #d0d0d0;
+  font-size: 11px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toolbar button:hover {
+  background: rgba(91, 91, 214, 0.25);
+  border-color: rgba(91, 91, 214, 0.5);
+  color: #fff;
+}
+.toolbar button:active {
+  background: rgba(91, 91, 214, 0.4);
+  transform: scale(0.97);
+}
+
+.color-dot.green {
+  color: #3CB72C;
+}
+.color-dot.black {
+  color: #d0d0d0;
+}
+
+.btn-danger {
+  background: rgba(220, 60, 60, 0.15) !important;
+  border-color: rgba(220, 60, 60, 0.4) !important;
+  color: #ff8080 !important;
+}
+.btn-danger:hover {
+  background: rgba(220, 60, 60, 0.3) !important;
+  border-color: rgba(220, 60, 60, 0.7) !important;
 }
 </style>

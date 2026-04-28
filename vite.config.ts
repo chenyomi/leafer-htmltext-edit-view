@@ -13,7 +13,7 @@ export default defineConfig(({ command }) => {
         : []
     },
     server: {
-      port: 80,
+      port: 8088,
       host: '0.0.0.0',
       strictPort: true,
       allowedHosts: true

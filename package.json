@@ -10,28 +10,31 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chenyomi/leafer-htmltext-edit": "^2.4.2",
-    "@leafer-in/animate": "^2.0.0",
-    "@leafer-in/arrow": "^2.0.0",
-    "@leafer-in/color": "^2.0.0",
-    "@leafer-in/editor": "^2.0.0",
-    "@leafer-in/flow": "^2.0.0",
-    "@leafer-ui/core": "^2.0.0",
-    "@leafer-in/html": "^2.0.0",
-    "@leafer-in/robot": "^2.0.0",
-    "@leafer-in/scroll": "^2.0.0",
-    "@leafer-in/state": "^2.0.0",
-    "@leafer-in/view": "^2.0.0",
-    "leafer-draw": "^2.0.0",
-    "leafer-editor": "^2.0.0",
-    "leafer-ui": "^2.0.0",
-    "vue": "^3.4.37"
+    "@chenyomi/leafer-htmltext-edit": "^2.4.3",
+    "@leafer-in/animate": "^2.1.0",
+    "@leafer-in/arrow": "^2.1.0",
+    "@leafer-in/color": "^2.1.0",
+    "@leafer-in/editor": "^2.1.0",
+    "@leafer-in/flow": "^2.1.0",
+    "@leafer-in/html": "^2.1.0",
+    "@leafer-in/robot": "^2.1.0",
+    "@leafer-in/scroll": "^2.1.0",
+    "@leafer-in/state": "^2.1.0",
+    "@leafer-in/view": "^2.1.0",
+    "@leafer-ui/core": "^2.1.0",
+    "leafer-draw": "^2.1.0",
+    "leafer-editor": "^2.1.0",
+    "leafer-htmltext-edit": "link:../../../Library/pnpm/global/5/node_modules/@chenyomi/leafer-htmltext-edit",
+    "leafer-ui": "^2.1.0",
+    "pm": "link:../../../Library/pnpm/global/5/node_modules/pm",
+    "vue": "^3.5.33",
+    "warn": "link:../../../Library/pnpm/global/5/node_modules/warn"
   },
   "devDependencies": {
-    "@types/node": "^20.8.7",
-    "@vitejs/plugin-vue": "^5.1.2",
-    "typescript": "^5.5.3",
-    "vite": "^5.4.1",
-    "vue-tsc": "^2.0.29"
+    "@types/node": "^20.19.39",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.21",
+    "vue-tsc": "^2.2.12"
   }
 }
