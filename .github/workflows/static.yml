@@ -21,23 +21,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 安装 pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 25
+          node-version: 20
+          cache: 'pnpm'
 
-      # 安装 pnpm
-      - name: Setup pnpm
-        run: npm install -g pnpm
-
-      - name: Approve pnpm build scripts (non-interactive)
-        run: |
-          # 自动在 CI 中批准所有需要运行构建脚本的包（例如 esbuild）
-          pnpm approve-builds --all
-
-      # 安装依赖
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile --no-verify-store-integrity
 
       # 构建项目
       - name: Build project
