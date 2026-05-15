@@ -30,6 +30,11 @@ jobs:
       - name: Setup pnpm
         run: npm install -g pnpm
 
+      - name: Approve pnpm build scripts (non-interactive)
+        run: |
+          # 自动在 CI 中批准所有需要运行构建脚本的包（例如 esbuild）
+          printf 'a\ny\n' | pnpm approve-builds
+
       # 安装依赖
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
