@@ -49,6 +49,7 @@ onMounted(async () => {
     textShadow: undefined,
     fontWeight: "bold",
     alignContent: "start",
+    color: "#e74c3c",
     content: "Hello World!",
   });
   frame.add(text_);
