@@ -47,7 +47,9 @@ onMounted(async () => {
     lineHeight: 1.5,
     letterSpacing: 0,
     textShadow: undefined,
+    fontWeight: "bold",
     alignContent: "start",
+    content: "Hello World!",
   });
   frame.add(text_);
   // leafer.editor.openInnerEditor(text, true)
