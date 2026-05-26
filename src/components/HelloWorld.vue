@@ -51,6 +51,8 @@ onMounted(async () => {
     alignContent: "start",
     color: "#e74c3c",
     content: "Hello World!",
+    italic: true,
+    textStroke: '3px #000',
   });
   frame.add(text_);
   // leafer.editor.openInnerEditor(text, true)
