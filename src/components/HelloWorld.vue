@@ -201,7 +201,7 @@ const cancelSelect = () => {
         <ul>
           <li><strong>字体样式</strong> — 加粗 / 斜体 / 下划线 / 删除线 / 大小写转换</li>
           <li><strong>上下标</strong> — 上标 X² 和下标 H₂O</li>
-          <li><strong>水平对齐</strong> — 左对齐 / 居中 / 右对齐</li>
+          <li><strong>水平对齐</strong> — 左对齐 / 居中 / 右对齐 / 两端对齐 / 分散对齐</li>
           <li><strong>垂直对齐</strong> — 顶部 / 垂直居中 / 底部</li>
           <li><strong>列表</strong> — 有序列表（1. 2. 3.）和无序列表（• • •）</li>
           <li><strong>文字颜色</strong> — 改变选中文字的颜色</li>
@@ -262,6 +262,8 @@ const cancelSelect = () => {
       <button @click="setHTMLText('align', false)">≡ 左对齐</button>
       <button @click="setHTMLText('align', 'center')">≡ 居中</button>
       <button @click="setHTMLText('align', 'right')">≡ 右对齐</button>
+      <button @click="setHTMLText('align', 'justify')">≡ 两端对齐</button>
+      <button @click="setHTMLText('align', 'distribute')">≡ 分散对齐</button>
     </div>
 
     <div class="toolbar-group">
