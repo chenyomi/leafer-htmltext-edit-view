@@ -56,7 +56,7 @@ onMounted(async () => {
     italic: true,
     textStroke: '3px #000',
   });
-  frame.add(text_);
+  frame.add(text_ as any);
   // leafer.editor.openInnerEditor(text, true)
 });
 const fontFamily = '"Dancing Script", cursive';
@@ -142,7 +142,29 @@ const addText = () => {
     letterSpacing: 0,
     alignContent: 'start',
   });
-  frame.add(text);
+  frame.add(text as any);
+};
+
+const addTextWithInitialFont = () => {
+  const canvas = htmlTextManage.getCanvas();
+  if (!canvas) return;
+  const text = new HtmlText({
+    editOuter: 'TextEditTool',
+    name: 'InitialFontText',
+    x: window.innerWidth * 0.35 + Math.random() * 60,
+    y: window.innerHeight * 0.45 + Math.random() * 40,
+    editable: true,
+    draggable: true,
+    fontFamily,
+    fontBase64,
+    fontSize: 32,
+    lineHeight: 1.5,
+    letterSpacing: 0,
+    alignContent: 'start',
+    color: '#8e44ad',
+    content: 'Initial Font Text',
+  } as any);
+  frame.add(text as any);
 };
 
 const deleteSelected = () => {
@@ -282,6 +304,7 @@ const cancelSelect = () => {
     <div class="bottom-panel-group">
       <div class="bottom-group-label">文本</div>
       <button class="bottom-btn primary" @click="addText">＋ 添加文本</button>
+      <button class="bottom-btn primary" @click="addTextWithInitialFont">＋ 初始字体文本</button>
       <button class="bottom-btn danger" @click="deleteSelected">✕ 删除选中</button>
     </div>
     <div class="bottom-divider"></div>
