@@ -397,6 +397,13 @@ const cancelSelect = () => {
     </div>
 
     <div class="toolbar-group">
+      <div class="group-label">内边距</div>
+      <button @click="setHTMLText('padding', 20)">Padding 20</button>
+      <button @click="setHTMLText('padding', [5, 10, 15, 20])">Padding [5,10,15,20]</button>
+      <button @click="setHTMLText('padding', 0)">Padding 0</button>
+    </div>
+
+    <div class="toolbar-group">
       <div class="group-label">文字阴影</div>
       <button @click="setHTMLText('textShadow', '3px 3px 3px rgba(0,0,0,0.5)')">黑色阴影</button>
       <button @click="setHTMLText('textShadow', '2px 2px 0px red')">红色阴影</button>
