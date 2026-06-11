@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 const showGuide = ref(false);
+const baseUrl = import.meta.env.BASE_URL;
 import { App, Frame, Leafer } from "leafer-ui";
 import "leafer-editor";
 import {
@@ -211,6 +212,7 @@ const cancelSelect = () => {
   <!-- 顶部介绍栏 -->
   <div class="intro-bar">
     <div class="intro-left">
+      <img class="brand-logo" :src="`${baseUrl}chenyomi-logo.svg`" alt="chenyomi" />
       <span class="plugin-badge">Plugin</span>
       <span class="plugin-name">@chenyomi/leafer-htmltext-edit</span>
       <span class="plugin-desc">基于 Leafer UI + Quill 2.0 的富文本编辑器插件</span>
@@ -492,6 +494,12 @@ const cancelSelect = () => {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+.brand-logo {
+  width: 150px;
+  height: 35px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 .plugin-badge {
   background: #5b5bd6;

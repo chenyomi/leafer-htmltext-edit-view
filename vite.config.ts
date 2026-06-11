@@ -5,7 +5,7 @@ export default defineConfig(({ command }) => {
   const isDev = command === 'serve'
 
   return {
-    base: 'leafer-htmltext-edit-view',
+    base: '/leafer-htmltext-edit-view/',
     plugins: [vue()],
     resolve: {
       dedupe: isDev
