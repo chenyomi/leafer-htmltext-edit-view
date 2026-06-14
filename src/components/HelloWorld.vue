@@ -219,6 +219,14 @@ const cancelSelect = () => {
     </div>
     <div class="intro-right">
       <span class="tip-text">💡 双击文本框进入编辑，选中文字后点击按钮应用样式</span>
+      <a
+        class="guide-toggle-btn docs-link-btn"
+        href="https://chenyomi.github.io/leafer-htmltext-edit-website/docs"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        文档 ↗
+      </a>
       <button class="guide-toggle-btn" @click="showGuide = !showGuide">
         {{ showGuide ? '收起指南 ▲' : '操作指南 ▼' }}
       </button>
@@ -539,6 +547,11 @@ const cancelSelect = () => {
 }
 .guide-toggle-btn:hover {
   background: rgba(91, 91, 214, 0.4);
+}
+.docs-link-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 /* ===== 操作指南面板 ===== */
