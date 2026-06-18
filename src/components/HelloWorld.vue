@@ -93,6 +93,7 @@ const reload = () => {
 };
 const print = () => {
   const canvas = htmlTextManage.getCanvas();
+  if (!canvas) return;
   canvas.editor.list.forEach((item: any) => {
     const copy = item.clone();
     copy.x += 10;
