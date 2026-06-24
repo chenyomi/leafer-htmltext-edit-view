@@ -15,7 +15,7 @@ export default defineConfig(({ command }) => {
     server: {
       port: 8088,
       host: '0.0.0.0',
-      strictPort: true,
+      strictPort: false,
       allowedHosts: true
     }
   }
