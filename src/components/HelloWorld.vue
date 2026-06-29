@@ -6,6 +6,7 @@ const siteHeaderRef = ref<HTMLElement | null>(null);
 let siteHeaderResizeObserver: ResizeObserver | undefined;
 const baseUrl = import.meta.env.BASE_URL;
 const authorEmail = '408550179@qq.com';
+const githubRepoUrl = 'https://github.com/chenyomi/leafer-htmltext-edit-view';
 
 const syncSiteHeaderHeight = () => {
   const height = siteHeaderRef.value?.offsetHeight;
@@ -278,6 +279,14 @@ const cancelSelect = () => {
         <span class="tip-text">💡 双击文本框进入编辑，选中文字后点击按钮应用样式</span>
         <a
           class="guide-toggle-btn docs-link-btn"
+          :href="githubRepoUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          示例源码 ↗
+        </a>
+        <a
+          class="guide-toggle-btn docs-link-btn"
           href="https://chenyomi.github.io/leafer-htmltext-edit-website/docs"
           target="_blank"
           rel="noopener noreferrer"
@@ -364,6 +373,10 @@ const cancelSelect = () => {
       <div class="guide-section">
         <h4>📦 安装</h4>
         <ul>
+          <li>
+            <strong>示例源码</strong> —
+            <a class="guide-link" :href="githubRepoUrl" target="_blank" rel="noopener noreferrer">GitHub 下载 Demo</a>
+          </li>
           <li><code>pnpm add @chenyomi/leafer-htmltext-edit</code></li>
           <li>Peer: leafer-ui · @leafer-ui/core · @leafer-in/editor · @leafer-in/html · quill</li>
         </ul>
@@ -776,6 +789,13 @@ const cancelSelect = () => {
   border-radius: 3px;
   font-family: 'SF Mono', monospace;
   font-size: 11px;
+}
+.guide-link {
+  color: #7bc0ff;
+  text-decoration: none;
+}
+.guide-link:hover {
+  text-decoration: underline;
 }
 
 /* ===== 工具栏通用 ===== */
