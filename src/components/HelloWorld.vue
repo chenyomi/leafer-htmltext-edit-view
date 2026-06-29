@@ -1,7 +1,24 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 const showGuide = ref(false);
+const showContact = ref(false);
+const siteHeaderRef = ref<HTMLElement | null>(null);
+let siteHeaderResizeObserver: ResizeObserver | undefined;
 const baseUrl = import.meta.env.BASE_URL;
+const authorEmail = '408550179@qq.com';
+
+const syncSiteHeaderHeight = () => {
+  const height = siteHeaderRef.value?.offsetHeight;
+  if (height) {
+    document.documentElement.style.setProperty('--site-header-height', `${height}px`);
+  }
+};
+
+const bindSiteHeaderResizeObserver = () => {
+  if (!siteHeaderRef.value || siteHeaderResizeObserver) return;
+  siteHeaderResizeObserver = new ResizeObserver(() => syncSiteHeaderHeight());
+  siteHeaderResizeObserver.observe(siteHeaderRef.value);
+};
 import { App, Frame, Leafer } from "leafer-ui";
 import "leafer-editor";
 import {
@@ -47,10 +64,16 @@ onMounted(async () => {
   addInitialHtmlTextContent();
   syncLockRatioState();
   selectionSyncTimer = window.setInterval(syncLockRatioState, 120);
+  await nextTick();
+  syncSiteHeaderHeight();
+  bindSiteHeaderResizeObserver();
+  window.addEventListener('resize', syncSiteHeaderHeight);
 });
 
 onUnmounted(() => {
   if (selectionSyncTimer) window.clearInterval(selectionSyncTimer);
+  siteHeaderResizeObserver?.disconnect();
+  window.removeEventListener('resize', syncSiteHeaderHeight);
 });
 const addExternalHtmlTextCase = () => {
   if (!frame) return;
@@ -242,26 +265,44 @@ const cancelSelect = () => {
 <template>
   <div id="leafer-view"></div>
 
-  <!-- 顶部介绍栏 -->
-  <div class="intro-bar">
-    <div class="intro-left">
-      <img class="brand-logo" :src="`${baseUrl}chenyomi-logo.svg`" alt="chenyomi" />
-      <span class="plugin-badge">Plugin</span>
-      <span class="plugin-name">@chenyomi/leafer-htmltext-edit</span>
-      <span class="plugin-desc">基于 Leafer UI + Quill 2.0 的富文本编辑器插件</span>
+  <!-- 顶部区域 -->
+  <div class="site-header" ref="siteHeaderRef">
+    <div class="intro-bar">
+      <div class="intro-left">
+        <img class="brand-logo" :src="`${baseUrl}chenyomi-logo.svg`" alt="chenyomi" />
+        <span class="plugin-badge">Plugin</span>
+        <span class="plugin-name">@chenyomi/leafer-htmltext-edit</span>
+        <span class="plugin-desc">基于 Leafer UI + Quill 2.0 的富文本编辑器插件</span>
+      </div>
+      <div class="intro-right">
+        <span class="tip-text">💡 双击文本框进入编辑，选中文字后点击按钮应用样式</span>
+        <a
+          class="guide-toggle-btn docs-link-btn"
+          href="https://chenyomi.github.io/leafer-htmltext-edit-website/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          文档 ↗
+        </a>
+        <button class="guide-toggle-btn" @click="showGuide = !showGuide">
+          {{ showGuide ? '收起指南 ▲' : '操作指南 ▼' }}
+        </button>
+        <button class="guide-toggle-btn contact-btn" @click="showContact = true">
+          联系作者
+        </button>
+      </div>
     </div>
-    <div class="intro-right">
-      <span class="tip-text">💡 双击文本框进入编辑，选中文字后点击按钮应用样式</span>
-      <a
-        class="guide-toggle-btn docs-link-btn"
-        href="https://chenyomi.github.io/leafer-htmltext-edit-website/docs"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        文档 ↗
-      </a>
-      <button class="guide-toggle-btn" @click="showGuide = !showGuide">
-        {{ showGuide ? '收起指南 ▲' : '操作指南 ▼' }}
+
+    <div class="license-notice-bar">
+      <span class="license-notice-icon">🔐</span>
+      <p class="license-notice-text">
+        <strong>授权说明：</strong>
+        本 Demo 内置密钥仅支持在 <code>localhost</code> / <code>127.0.0.1</code> 本地环境自由调试，功能可完整体验。
+        若计划部署到<strong>线上环境</strong>（测试服、预发布、正式域名、内网穿透公网访问等），请务必<strong>提前联系作者</strong>申请对应域名的商业授权密钥，并在初始化前调用 <code>setLicense(key)</code> 激活。
+        未经授权部署到非本地域名后，<strong>插件功能将失效</strong>（编辑、样式等能力不可用），可能影响项目上线，请尽早沟通。
+      </p>
+      <button class="license-notice-btn" type="button" @click="showContact = true">
+        申请授权
       </button>
     </div>
   </div>
@@ -311,12 +352,42 @@ const cancelSelect = () => {
         </ul>
       </div>
       <div class="guide-section">
+        <h4>📋 授权说明</h4>
+        <ul>
+          <li><strong>本地调试</strong> — 在 <code>localhost</code>、<code>127.0.0.1</code> 等本机地址下，可直接使用 Demo 内置密钥，完整体验全部功能</li>
+          <li><strong>线上部署</strong> — 项目部署到公网域名、测试/预发布/生产环境，或经内网穿透对外访问时，均视为线上使用</li>
+          <li><strong>提前申请</strong> — 上线前请通过「联系作者」获取与您域名匹配的商业授权密钥，避免临上线才发现功能不可用</li>
+          <li><strong>激活方式</strong> — 在 <code>htmlTextManage.init()</code> 之前调用 <code>await setLicense(key)</code> 完成授权绑定</li>
+          <li><strong>未授权后果</strong> — 非 localhost 域名下未配置有效密钥时，富文本编辑、样式应用等核心能力将停止工作</li>
+        </ul>
+      </div>
+      <div class="guide-section">
         <h4>📦 安装</h4>
         <ul>
           <li><code>pnpm add @chenyomi/leafer-htmltext-edit</code></li>
           <li>Peer: leafer-ui · @leafer-ui/core · @leafer-in/editor · @leafer-in/html · quill</li>
         </ul>
       </div>
+    </div>
+  </div>
+
+  <!-- 联系作者弹窗 -->
+  <div v-if="showContact" class="contact-modal-overlay" @click.self="showContact = false">
+    <div class="contact-modal">
+      <button class="contact-modal-close" type="button" aria-label="关闭" @click="showContact = false">×</button>
+      <h3>联系作者</h3>
+      <div class="contact-license-tip">
+        <p>
+          如需将插件用于<strong>线上项目</strong>，请说明您的使用场景、部署域名及预计上线时间，作者将为您签发对应的授权密钥。
+          本地 <code>localhost</code> 调试无需申请，可直接使用。
+        </p>
+      </div>
+      <p>扫码添加微信，请备注「Leafer 插件授权」。</p>
+      <img :src="`${baseUrl}qrcode.jpg`" alt="作者微信二维码" />
+      <p class="contact-email">
+        或发送邮件至
+        <a :href="`mailto:${authorEmail}`">{{ authorEmail }}</a>
+      </p>
     </div>
   </div>
 
@@ -518,12 +589,15 @@ const cancelSelect = () => {
   z-index: 0;
 }
 
-/* ===== 顶部介绍栏 ===== */
-.intro-bar {
+/* ===== 顶部区域 ===== */
+.site-header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  z-index: 100;
+}
+.intro-bar {
   height: 44px;
   background: rgba(15, 15, 20, 0.92);
   backdrop-filter: blur(8px);
@@ -532,9 +606,56 @@ const cancelSelect = () => {
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  z-index: 100;
   font-size: 12px;
   color: #ccc;
+}
+.license-notice-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(180, 120, 20, 0.18);
+  border-bottom: 1px solid rgba(255, 180, 60, 0.28);
+  backdrop-filter: blur(8px);
+}
+.license-notice-icon {
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.license-notice-text {
+  flex: 1;
+  margin: 0;
+  color: #d4b87a;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.license-notice-text strong {
+  color: #f0d090;
+}
+.license-notice-text code {
+  background: rgba(255, 180, 60, 0.12);
+  color: #ffd080;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'SF Mono', monospace;
+  font-size: 11px;
+}
+.license-notice-btn {
+  flex-shrink: 0;
+  align-self: center;
+  background: rgba(255, 180, 60, 0.15);
+  border: 1px solid rgba(255, 180, 60, 0.45);
+  color: #ffd080;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.license-notice-btn:hover {
+  background: rgba(255, 180, 60, 0.28);
 }
 .intro-left {
   display: flex;
@@ -595,19 +716,19 @@ const cancelSelect = () => {
 /* ===== 操作指南面板 ===== */
 .guide-panel {
   position: fixed;
-  top: 44px;
+  top: var(--site-header-height, 110px);
   left: 0;
   right: 0;
   background: rgba(18, 18, 24, 0.97);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.1);
   z-index: 99;
-  max-height: calc(100vh - 44px);
+  max-height: calc(100vh - var(--site-header-height, 110px));
   overflow-y: auto;
 }
 .guide-inner {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 0;
   padding: 16px 20px;
 }
@@ -660,9 +781,9 @@ const cancelSelect = () => {
 /* ===== 工具栏通用 ===== */
 .toolbar {
   position: fixed;
-  top: 54px;
+  top: calc(var(--site-header-height, 110px) + 10px);
   width: 148px;
-  max-height: calc(100vh - 64px);
+  max-height: calc(100vh - var(--site-header-height, 110px) - 80px);
   overflow-y: auto;
   overflow-x: hidden;
   background: rgba(15, 15, 20, 0.88);
@@ -799,7 +920,7 @@ const cancelSelect = () => {
   scrollbar-width: none;
 }
 .top-action-panel {
-  top: 50px;
+  top: calc(var(--site-header-height, 110px) + 8px);
 }
 .bottom-action-panel {
   bottom: 12px;
@@ -866,5 +987,100 @@ const cancelSelect = () => {
 .bottom-btn.danger:hover {
   background: rgba(220, 60, 60, 0.28);
   border-color: rgba(220, 60, 60, 0.6);
+}
+
+/* ===== 联系作者弹窗 ===== */
+.contact-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(10px);
+}
+.contact-modal {
+  position: relative;
+  width: min(360px, 100%);
+  padding: 28px 24px 24px;
+  border: 1px solid rgba(91, 91, 214, 0.45);
+  border-radius: 16px;
+  background: rgba(18, 18, 24, 0.98);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+  text-align: center;
+}
+.contact-modal h3 {
+  margin: 0 0 10px;
+  color: #9999ff;
+  font-size: 20px;
+  font-weight: 700;
+}
+.contact-license-tip {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 180, 60, 0.1);
+  border: 1px solid rgba(255, 180, 60, 0.22);
+  text-align: left;
+}
+.contact-license-tip p {
+  margin: 0;
+  color: #c8b080;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.contact-license-tip strong {
+  color: #f0d090;
+}
+.contact-license-tip code {
+  background: rgba(255, 180, 60, 0.12);
+  color: #ffd080;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: 'SF Mono', monospace;
+  font-size: 11px;
+}
+.contact-modal p {
+  margin: 0 0 16px;
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.contact-modal img {
+  display: block;
+  width: min(220px, 100%);
+  margin: 0 auto;
+  border-radius: 12px;
+}
+.contact-email {
+  margin: 16px 0 0 !important;
+  font-size: 12px !important;
+}
+.contact-email a {
+  color: #7bc0ff;
+  text-decoration: none;
+}
+.contact-email a:hover {
+  text-decoration: underline;
+}
+.contact-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.contact-modal-close:hover {
+  color: #fff;
+  border-color: rgba(91, 91, 214, 0.6);
 }
 </style>
