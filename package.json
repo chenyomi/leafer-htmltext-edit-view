@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@chenyomi/leafer-htmltext-edit": "^2.6.15",
+    "@chenyomi/leafer-htmltext-formula": "^1.0.1",
     "@leafer-in/animate": "^2.2.4",
     "@leafer-in/arrow": "^2.2.4",
     "@leafer-in/color": "^2.2.4",
@@ -25,6 +26,7 @@
     "leafer-draw": "^2.2.4",
     "leafer-editor": "^2.2.4",
     "leafer-ui": "^2.2.4",
+    "quill": "^2.0.3",
     "vue": "^3.5.40"
   },
   "devDependencies": {

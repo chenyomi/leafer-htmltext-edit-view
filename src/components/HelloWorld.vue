@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 const showGuide = ref(false);
 const showContact = ref(false);
+const showFormulaPicker = ref(false);
 const actionMessage = ref('');
 const siteHeaderRef = ref<HTMLElement | null>(null);
 let siteHeaderResizeObserver: ResizeObserver | undefined;
@@ -32,6 +33,11 @@ import {
   applyHTMLTextFormat,
   HtmlText,
 } from "@chenyomi/leafer-htmltext-edit";
+import {
+  insertHTMLTextFormula,
+  renderFormulaHtml,
+} from "@chenyomi/leafer-htmltext-formula";
+import FormulaPicker from "./FormulaPicker.vue";
 
 let leafer: any, frame: Frame;
 let selectionSyncTimer: number | undefined;
@@ -277,6 +283,47 @@ const resetArcText = () => {
 };
 
 // ---- 底部面板操作 ----
+
+const addFormulaText = () => {
+  if (!frame) return;
+  const formula = renderFormulaHtml(String.raw`x = {-b \pm \sqrt{b^2-4ac} \over 2a}`);
+  const text = new HtmlText({
+    x: window.innerWidth * 0.12,
+    y: window.innerHeight * 0.22,
+    editable: true,
+    draggable: true,
+    fontSize: 22,
+    lineHeight: 1.6,
+    text: `<p>When ${renderFormulaHtml(String.raw`a \ne 0`)}, there are two solutions to ${renderFormulaHtml(String.raw`ax^2 + bx + c = 0`)} and they are ${formula}</p>`,
+  } as any);
+  frame.add(text as any);
+};
+
+const insertFormula = (tex: string) => {
+  const value = tex.trim();
+  if (!value) return;
+  showFormulaPicker.value = false;
+  const canvas = htmlTextManage.getCanvas();
+  if ((canvas?.editor?.list || []).length) {
+    insertHTMLTextFormula(value);
+    return;
+  }
+  if (!frame) {
+    showActionMessage('请先选中文本框，或添加文本后再插入公式');
+    return;
+  }
+  const text = new HtmlText({
+    x: window.innerWidth * 0.35 + Math.random() * 60,
+    y: window.innerHeight * 0.32 + Math.random() * 40,
+    editable: true,
+    draggable: true,
+    fontSize: 28,
+    lineHeight: 1.6,
+    text: `<p>${renderFormulaHtml(value)}</p>`,
+  } as any);
+  frame.add(text as any);
+};
+
 const addText = () => {
   const canvas = htmlTextManage.getCanvas();
   if (!canvas) return;
@@ -360,7 +407,7 @@ const cancelSelect = () => {
         <img class="brand-logo" :src="`${baseUrl}chenyomi-logo.svg`" alt="chenyomi" />
         <span class="plugin-badge">Plugin</span>
         <span class="plugin-name">@chenyomi/leafer-htmltext-edit</span>
-        <span class="plugin-desc">基于 Leafer UI + Quill 2.0 的富文本编辑器插件</span>
+        <span class="plugin-desc">富文本编辑 + 公式插件 @chenyomi/leafer-htmltext-formula</span>
       </div>
       <div class="intro-right">
         <span class="tip-text">💡 双击文本框进入编辑，选中文字后点击按钮应用样式</span>
@@ -433,6 +480,7 @@ const cancelSelect = () => {
           <li><strong>元素缩放</strong> — 对选中元素按比例缩放 50%~200%</li>
           <li><strong>旋转</strong> — 对选中元素旋转 ±15° / +90° 或归零</li>
           <li><strong>弧形文字</strong> — 将文字沿弧形路径排列（SVG TextPath）</li>
+          <li><strong>公式</strong> — 顶部「公式库」按 KaTeX 分类插入；独立包 <code>@chenyomi/leafer-htmltext-formula</code></li>
         </ul>
       </div>
       <div class="guide-section">
@@ -445,6 +493,8 @@ const cancelSelect = () => {
           <li><code>htmlTextManage.getCanvas()</code> — 获取 Leafer App 实例</li>
           <li><code>htmlTextManage.dateEdit(cb)</code> — 批量编辑多选对象</li>
           <li><code>new HtmlText({...})</code> — 创建富文本节点</li>
+          <li><code>insertHTMLTextFormula(latex)</code> — 从 <code>@chenyomi/leafer-htmltext-formula</code> 插入公式</li>
+          <li><code>renderFormulaHtml(latex)</code> — 生成公式 HTML，用于初始 text</li>
         </ul>
       </div>
       <div class="guide-section">
@@ -464,12 +514,18 @@ const cancelSelect = () => {
             <strong>示例源码</strong> —
             <a class="guide-link" :href="githubRepoUrl" target="_blank" rel="noopener noreferrer">GitHub 下载 Demo</a>
           </li>
-          <li><code>pnpm add @chenyomi/leafer-htmltext-edit</code></li>
+          <li><code>pnpm add @chenyomi/leafer-htmltext-edit @chenyomi/leafer-htmltext-formula</code></li>
           <li>Peer: leafer-ui · @leafer-ui/core · @leafer-in/editor · @leafer-in/html · quill</li>
         </ul>
       </div>
     </div>
   </div>
+
+  <FormulaPicker
+    :open="showFormulaPicker"
+    @close="showFormulaPicker = false"
+    @pick="insertFormula"
+  />
 
   <!-- 联系作者弹窗 -->
   <div v-if="showContact" class="contact-modal-overlay" @click.self="showContact = false">
@@ -549,6 +605,8 @@ const cancelSelect = () => {
     <div class="bottom-panel-group">
       <div class="bottom-group-label">文本</div>
       <button class="bottom-btn primary" @click="addText">＋ 添加文本</button>
+      <button class="bottom-btn primary" @click="addFormulaText">＋ 添加公式文本</button>
+      <button class="bottom-btn primary" @click="showFormulaPicker = true">∑ 公式库</button>
       <button class="bottom-btn primary" @click="addInitialHtmlTextContent">＋ 初始HTML内容</button>
       <button class="bottom-btn primary" @click="addExternalHtmlTextCase">＋ 外部HTML恢复</button>
       <button class="bottom-btn primary" @click="addTextWithInitialFont">＋ 初始字体文本</button>
